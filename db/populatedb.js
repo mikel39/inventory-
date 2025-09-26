@@ -1,0 +1,151 @@
+const fs = require("fs");
+const { Pool } = require("pg");
+const path = require("path");
+
+const { env } = process;
+const filePath = path.join(__dirname, "./data.json");
+const data = JSON.parse(fs.readFileSync(filePath, "utf-8"));
+const pool = new Pool({
+  connectionString: `postgresql://${env.USER}:${env.PASSWORD}@${env.HOST}:${env.PORT}/${env.DB}`,
+});
+
+function getTables() {
+  const genres = [];
+  const books = [];
+  const authors = [];
+
+  for (let book of data) {
+    const genreIds = [];
+
+    book["cached_tags"]["Genre"].slice(0, 2).forEach((gn) => {
+      const obj = genres.filter((gnr) => gnr.tag === gn.tag);
+
+      const { tag, tagSlug } = gn;
+      let id = null;
+
+      if (!obj.length) {
+        id = genres.length;
+        genres.push({ id, tag, tagSlug });
+      } else {
+        id = obj[0].id;
+      }
+      genreIds.push(id);
+    });
+
+    delete book["cached_tags"];
+    book.genreIds = genreIds;
+
+    const author = book["cached_contributors"][0].author;
+
+    const hasAuthor = authors.some((item) => item.id === author.id);
+
+    const { id, slug, name } = author;
+    const imageUrl = author.image.url;
+
+    if (!hasAuthor) {
+      authors.push({ id, slug, name, imageUrl });
+    }
+
+    book.authorId = id;
+    delete book["cached_contributors"];
+
+    book.imageUrl = book.image.url;
+    delete book.image;
+
+    books.push(book);
+  }
+
+  return {
+    authors,
+    books,
+    genres,
+  };
+}
+
+async function proccessBooks(books) {
+  const booksTable = `
+  CREATE TABLE IF NOT EXISTS books (
+    id INTEGER PRIMARY KEY,
+    title TEXT,
+    release_date DATE,
+    description TEXT,
+    rating REAL,
+    slug TEXT,
+    pages INTEGER,
+    genre_ids INTEGER [],
+    author_id INTEGER,
+    image_url VARCHAR(200)
+  );`;
+
+  await pool.query(booksTable);
+
+  books.forEach(async (book) => {
+    const qry = `INSERT INTO books 
+    (title, release_date, description, rating, id, slug, pages, genre_ids, author_id, image_url)
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10);
+    `;
+
+    const values = Object.values(book);
+
+    await pool.query(qry, values);
+  });
+}
+
+async function proccessAuthors(authors) {
+  const authorsTable = `
+  CREATE TABLE IF NOT EXISTS authors (
+    id INTEGER PRIMARY KEY,
+    slug VARCHAR(100),
+    tag VARCHAR(80),
+    image_url VARCHAR(100)
+  );`;
+
+  await pool.query(authorsTable);
+
+  authors.forEach(async (author) => {
+    const qry = `
+    INSERT INTO authors (id, slug, tag, image_url)
+    VALUES
+      ($1, $2, $3, $4);
+    `;
+    const values = Object.values(author);
+    await pool.query(qry, values);
+  });
+}
+
+async function proccessGenres(genres) {
+  const genresTable = `
+  CREATE TABLE IF NOT EXISTS genres (
+    id INTEGER PRIMARY KEY,
+    tag VARCHAR(80),
+    tag_slug VARCHAR(80)
+  );
+  `;
+
+  await pool.query(genresTable);
+
+  genres.forEach(async (genre) => {
+    const qry = `
+    INSERT INTO genres (id, tag, tag_slug)
+    VALUES ($1, $2, $3);
+    `;
+    await pool.query(qry, [genre.id, genre.tag, genre.tagSlug]);
+  });
+}
+
+async function main() {
+  const { authors, books, genres } = getTables();
+
+  console.log("doing books");
+  await proccessBooks(books);
+
+  console.log("doing authors");
+  await proccessAuthors(authors);
+
+  console.log("doing genres");
+  await proccessGenres(genres);
+
+  console.log("done");
+}
+
+main();
