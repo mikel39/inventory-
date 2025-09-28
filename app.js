@@ -1,7 +1,14 @@
 const express = require("express");
-const proccess = require("process");
+const path = require("path");
+const index = require("./routes/index");
 
-const env = proccess.env;
 const app = express();
 
-app.listen(env.PORT, (err) => err && console.log(err));
+app.use(express.urlencoded({ extended: true }));
+
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "ejs");
+
+app.use("/", index);
+
+app.listen(8000, (err) => err && console.log(err));

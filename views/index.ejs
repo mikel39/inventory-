@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Inventory</title>
+  </head>
+  <body>
+    <section>
+      <div>
+        <form action="/" method="POST">
+          <div>
+            <% genres.map((gn) => { %>
+            <div>
+              <input
+                type="radio"
+                name="genre"
+                id="<%= gn.tag_slug %>"
+                value="<%= gn.tag_slug %>"
+              />
+              <label for="<%= gn.tag_slug %>"><%= gn.tag %></label>
+            </div>
+            <% }) %>
+          </div>
+
+          <div>
+            <% authors.map((author) => { %>
+            <div>
+              <input type="radio" name="author" id="<%= author.slug %>" />
+              <label for="<%= author.slug %>"><%= author.tag %></label>
+            </div>
+            <% }) %>
+          </div>
+          <button type="submit">Apply</button>
+        </form>
+      </div>
+      <div>
+        <ul>
+          <% books.map((book) => { %>
+          <li>
+            <a href="/<%= book.slug %>">
+              <span><%= book.title %></span>
+              <span><%= book.rating.toFixed(1) %></span>
+              <span><%= book.pages %></span>
+            </a>
+          </li>
+          <% }) %>
+        </ul>
+      </div>
+    </section>
+  </body>
+</html>

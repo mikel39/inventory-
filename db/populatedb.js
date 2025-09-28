@@ -17,7 +17,7 @@ function getTables() {
   for (let book of data) {
     const genreIds = [];
 
-    book["cached_tags"]["Genre"].slice(0, 2).forEach((gn) => {
+    book["cached_tags"]["Genre"].slice(0, 1).forEach((gn) => {
       const obj = genres.filter((gnr) => gnr.tag === gn.tag);
 
       const { tag, tagSlug } = gn;
