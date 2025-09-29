@@ -8,29 +8,46 @@
   <body>
     <section>
       <div>
-        <form action="/" method="POST">
-          <div>
+        <form action="/" method="GET">
+          <fieldset>
+            <label for="limit">Limit</label>
+            <input
+              type="number"
+              name="limit"
+              id="limit"
+              value="<%= settings.limit %>"
+            />
+          </fieldset>
+          <fieldset>
+            <label for="order">Order by</label>
+            <select name="order" id="order">
+              <option value="df">Default</option>
+              <option value="rating">Rating</option>
+              <option value="title">Alphabetically</option>
+              <option value="release_date">Date</option>
+              <option value="pages">Pages</option>
+            </select>
+          </fieldset>
+          <fieldset>
+            <label for="author">Author</label>
+            <select name="author" id="author">
+              <option value="df">All</option>
+              <% authors.map((author) => { %>
+              <option value="<%= author.id %>"><%= author.tag %></option>
+              <% }) %>
+            </select>
+          </fieldset>
+          <fieldset>
+            <legend>Genres</legend>
             <% genres.map((gn) => { %>
-            <div>
-              <input
-                type="radio"
-                name="genre"
-                id="<%= gn.tag_slug %>"
-                value="<%= gn.tag_slug %>"
-              />
-              <label for="<%= gn.tag_slug %>"><%= gn.tag %></label>
-            </div>
+            <label>
+              <input type="checkbox" name="genre" value="<%= gn.id %>" <%=
+              settings.genre.includes(String(gn.id)) ? 'checked' : '' %> /> <%=
+              gn.tag %>
+            </label>
             <% }) %>
-          </div>
+          </fieldset>
 
-          <div>
-            <% authors.map((author) => { %>
-            <div>
-              <input type="radio" name="author" id="<%= author.slug %>" />
-              <label for="<%= author.slug %>"><%= author.tag %></label>
-            </div>
-            <% }) %>
-          </div>
           <button type="submit">Apply</button>
         </form>
       </div>

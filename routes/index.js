@@ -1,9 +1,8 @@
 const express = require("express");
-const { iniialPage, proccessFilters } = require("../controllers/index");
+const { iniialPageGEt } = require("../controllers/index");
 
 const router = express.Router();
 
-router.get("/", iniialPage);
-router.post("/", proccessFilters);
+router.get("/", iniialPageGEt);
 
 module.exports = router;
