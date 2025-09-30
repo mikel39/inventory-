@@ -3,7 +3,8 @@ const settings = {
   genre: [],
   author: "",
   limit: 20,
-  offset: 0,
+  page: 0,
+  pages: null,
 };
 
 module.exports = settings;

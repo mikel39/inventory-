@@ -8,7 +8,7 @@
   <body>
     <section>
       <div>
-        <form action="/" method="GET">
+        <form action="/page/<%= settings.page %>" method="GET">
           <fieldset>
             <label for="limit">Limit</label>
             <input
@@ -21,19 +21,24 @@
           <fieldset>
             <label for="order">Order by</label>
             <select name="order" id="order">
-              <option value="df">Default</option>
-              <option value="rating">Rating</option>
-              <option value="title">Alphabetically</option>
-              <option value="release_date">Date</option>
-              <option value="pages">Pages</option>
+              <option value="df" >Default</option>
+              <option value="rating" <%= settings.order === 'rating' ? 'selected': '' %> >Rating</option>
+              <option value="title"  <%= settings.order === 'title' ? 'selected': '' %> >Alphabetically</option>
+              <option value="release_date"  <%= settings.order === 'release_date' ? 'selected': '' %> >Date</option>
+              <option value="pages"  <%= settings.order === 'pages' ? 'selected': '' %>>Pages</option>
             </select>
           </fieldset>
           <fieldset>
+            
             <label for="author">Author</label>
             <select name="author" id="author">
               <option value="df">All</option>
               <% authors.map((author) => { %>
-              <option value="<%= author.id %>"><%= author.tag %></option>
+              <option value="<%= author.id %>"
+                <%= settings.author == author.id ? 'selected' : '' %>
+                >
+                <%= author.tag %>
+              </option>
               <% }) %>
             </select>
           </fieldset>
@@ -63,6 +68,12 @@
           </li>
           <% }) %>
         </ul>
+        <% [...Array(settings.pages).keys()].map(key => { %>
+   
+          <a href="/page/<%= key %>">
+            <%= key + 1 %>
+          </a>
+        <% }) %>
       </div>
     </section>
   </body>
