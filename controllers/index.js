@@ -1,4 +1,9 @@
-const { getAllItems, getAllGenres, getAllAuthors } = require("../db/query");
+const {
+  getAllItems,
+  getAllGenres,
+  getAllAuthors,
+  GetDetails,
+} = require("../db/query");
 const settings = require("./settings");
 
 const setNumOfPages = async (count) => {
@@ -7,21 +12,27 @@ const setNumOfPages = async (count) => {
 };
 
 async function iniialPageGEt(req, res) {
-  console.log(req.query);
+  const keys = Object.keys(req.query);
+
+  if (keys.length > 0) {
+    if (!req.query.genre) settings.genre = [];
+
+    keys.forEach((key) => {
+      const value = req.query[key];
+      if (value !== "df") settings[key] = value;
+      if (value == "df") settings[key] = "";
+    });
+
+    settings.genre = !Array.isArray(settings.genre)
+      ? [settings.genre]
+      : settings.genre;
+
+    settings.page = 0;
+  } else {
+    settings.page = req.params.page;
+  }
+
   console.log(settings);
-  res.query = req.query;
-  if (!req.query.genre) settings.genre = [];
-
-  Object.keys(req.query).forEach((key) => {
-    const value = req.query[key];
-    if (value !== "df") settings[key] = value;
-    if (value == "df") settings[key] = "";
-  });
-
-  settings.genre = !Array.isArray(settings.genre)
-    ? [settings.genre]
-    : settings.genre;
-  settings.page = req.params.page;
 
   const items = await getAllItems(settings);
   const genres = await getAllGenres();
@@ -33,6 +44,16 @@ async function iniialPageGEt(req, res) {
   res.render("index", { books, genres, authors, settings });
 }
 
+async function getBookDetails(req, res) {
+  const slug = req.params.name;
+  let book = await GetDetails(slug);
+  book = book[0];
+
+  res.render("bookDetails", { book });
+  console.log(book);
+}
+
 module.exports = {
   iniialPageGEt,
+  getBookDetails,
 };

@@ -34,8 +34,19 @@ async function getAllAuthors() {
   return result.rows;
 }
 
+async function GetDetails(slug) {
+  const qry = `SELECT  b.title AS bookTitle, b.release_date AS rDate, b.description AS bookDescription,
+  b.rating AS bookRating, b.pages AS bookPages, b.image_url AS bookImage, a.tag AS author, 
+  a.image_url AS authorImage, g.tag AS genreTag 
+  FROM books as b LEFT JOIN authors AS a ON b.author_id = a.id 
+  LEFT JOIN genres AS g ON g.id = ANY(b.genre_ids) WHERE b.slug LIKE '${slug}'; `;
+  const result = await pool.query(qry);
+  return result.rows;
+}
+
 module.exports = {
   getAllItems,
   getAllGenres,
   getAllAuthors,
+  GetDetails,
 };

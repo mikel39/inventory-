@@ -6,6 +6,8 @@
     <title>Inventory</title>
   </head>
   <body>
+
+  <a href="/new">add a book</a>
     <section>
       <div>
         <form action="/page/<%= settings.page %>" method="GET">
@@ -24,7 +26,7 @@
               <option value="df" >Default</option>
               <option value="rating" <%= settings.order === 'rating' ? 'selected': '' %> >Rating</option>
               <option value="title"  <%= settings.order === 'title' ? 'selected': '' %> >Alphabetically</option>
-              <option value="release_date"  <%= settings.order === 'release_date' ? 'selected': '' %> >Date</option>
+              <option value="release_date"  <%= settings.order === 'release_date' ? 'selected': '' %> >Release Date</option>
               <option value="pages"  <%= settings.order === 'pages' ? 'selected': '' %>>Pages</option>
             </select>
           </fieldset>
@@ -58,18 +60,18 @@
       </div>
       <div>
         <ul>
-          <% books.map((book) => { %>
+          <% books.map((book, index) => { %>
           <li>
-            <a href="/<%= book.slug %>">
+            <a href="/book/<%= book.slug %>" target="_blank">
               <span><%= book.title %></span>
               <span><%= book.rating.toFixed(1) %></span>
               <span><%= book.pages %></span>
+              <span><%= book.release_date %></span>
             </a>
           </li>
           <% }) %>
         </ul>
         <% [...Array(settings.pages).keys()].map(key => { %>
-   
           <a href="/page/<%= key %>">
             <%= key + 1 %>
           </a>
@@ -78,3 +80,7 @@
     </section>
   </body>
 </html>
+
+
+<!-- need to add create + read + update + delete -->
+
