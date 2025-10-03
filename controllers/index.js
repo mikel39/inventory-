@@ -32,8 +32,6 @@ async function iniialPageGEt(req, res) {
     settings.page = req.params.page;
   }
 
-  console.log(settings);
-
   const items = await getAllItems(settings);
   const genres = await getAllGenres();
   const authors = await getAllAuthors();
@@ -50,7 +48,6 @@ async function getBookDetails(req, res) {
   book = book[0];
 
   res.render("bookDetails", { book });
-  console.log(book);
 }
 
 module.exports = {
