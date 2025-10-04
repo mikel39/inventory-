@@ -139,6 +139,11 @@ async function updateBook(id, book) {
   ]);
 }
 
+async function deleteBook(id) {
+  const qry = `DELETE FROM books WHERE id = $1`;
+  const result = await pool.query(qry, [id]);
+}
+
 module.exports = {
   getAllItems,
   getAllGenres,
@@ -150,4 +155,5 @@ module.exports = {
   addGenre,
   addBook,
   updateBook,
+  deleteBook,
 };

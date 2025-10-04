@@ -21,7 +21,6 @@ async function updatePageGet(req, res) {
 async function updatePagePost(req, res) {
   const id = req.params.id;
   const book = req.body;
-  console.log(book);
 
   let authorId = await getAuthorId(book.author);
   if (authorId.length < 1) {

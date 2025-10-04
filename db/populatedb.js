@@ -64,6 +64,11 @@ function getTables() {
   };
 }
 
+const setSequence = async (table) => {
+  const qry = `SELECT setval('${table}_id_seq', (SELECT MAX(id) FROM ${table}) + 1)`;
+  await pool.query(qry);
+};
+
 async function proccessBooks(books) {
   const booksTable = `
   CREATE TABLE IF NOT EXISTS books (
@@ -90,6 +95,7 @@ async function proccessBooks(books) {
     const values = Object.values(book);
 
     await pool.query(qry, values);
+    await setSequence("books");
   });
 }
 
@@ -113,6 +119,8 @@ async function proccessAuthors(authors) {
     const values = Object.values(author);
     await pool.query(qry, values);
   });
+
+  await setSequence("authors");
 }
 
 async function proccessGenres(genres) {
@@ -133,6 +141,8 @@ async function proccessGenres(genres) {
     `;
     await pool.query(qry, [genre.id, genre.tag, genre.tagSlug]);
   });
+
+  await setSequence("genres");
 }
 
 async function main() {

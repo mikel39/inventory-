@@ -72,8 +72,11 @@
               </span>
               <p>
                 <a href="/edit/<%= book.slug%>">Edit</a>
-
               </p>
+              <form action="/delete" method="POST">
+                <input type="hidden" name="id" value="<%= book.id %>">
+                <button type="submit">Delete</button>
+              </form>
             </a>
           </li>
           <% }) %>

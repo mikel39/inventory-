@@ -3,6 +3,7 @@ const path = require("path");
 const index = require("./routes/index");
 const addnew = require("./routes/new");
 const update = require("./routes/update");
+const deleteModule = require("./routes/delete");
 
 const app = express();
 
@@ -14,5 +15,6 @@ app.set("view engine", "ejs");
 app.use("/", index);
 app.use("/new", addnew);
 app.use("/edit", update);
+app.use("/delete", deleteModule);
 
 app.listen(8000, (err) => err && console.log(err));
