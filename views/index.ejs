@@ -5,13 +5,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Inventory</title>
+  <link rel="stylesheet" href="/styles.css">
 </head>
 
 <body>
 
-  <a href="/new">add a book</a>
-  <section>
-    <div>
+  <a href="/new" class="btn add-book">Add a book</a>
+  <main>
+    <div class="form-container">
       <form action="/page/<%= settings.page %>" method="GET">
         <fieldset>
           <label for="limit">Limit</label>
@@ -50,44 +51,55 @@
             <% }) %>
         </fieldset>
 
-        <button type="submit">Apply</button>
+        <button type="submit" class="btn">Apply</button>
       </form>
     </div>
-    <div>
+    <div class="list-container">
       <ul>
         <% books.map((book, index)=> { %>
           <li>
             <a href="/book/<%= book.slug %>" target="_blank">
-              <span>
+              <span class="title">
                 <%= book.title %>
               </span>
-              <span>
-                <%= book.rating.toFixed(1) %>
-              </span>
-              <span>
-                <%= book.pages %>
-              </span>
-              <span>
-                <%= book.release_date %>
-              </span>
-              <p>
-                <a href="/edit/<%= book.slug%>">Edit</a>
-              </p>
+              <div class="data-container">
+                <span>
+                  Rating:
+                  <%= book.rating.toFixed(1) %>
+                </span>
+                <span>
+                  Pages:
+                  <%= book.pages %>
+                </span>
+                <span>
+                  Year:
+                  <%= new Date(book.release_date).getFullYear() %>
+                </span>
+              </div>
+            </a>
+            <div class="btns-container">
+              <a class="btn" href="/edit/<%= book.slug%>">Edit</a>
               <form action="/delete" method="POST">
                 <input type="hidden" name="id" value="<%= book.id %>">
-                <button type="submit">Delete</button>
+                <button class="btn" type="submit">Delete</button>
               </form>
-            </a>
+            </div>
+
           </li>
           <% }) %>
       </ul>
-      <% [...Array(settings.pages).keys()].map(key=> { %>
-        <a href="/page/<%= key %>">
-          <%= key + 1 %>
-        </a>
-        <% }) %>
+      <div class="pages-container">
+        <% [...Array(settings.pages).keys()].map(key=> { %>
+          <a href="/page/<%= key %>" class="page-anchor <%=settings.page == key ? 'current-page' : '' %>">
+            <%= key + 1 %>
+          </a>
+          <% }) %>
+
+      </div>
     </div>
-  </section>
+  </main>
+
+
 </body>
 
 </html>
