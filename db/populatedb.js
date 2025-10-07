@@ -65,7 +65,7 @@ function getTables() {
 }
 
 const setSequence = async (table) => {
-  const qry = `SELECT setval('${table}_id_seq', (SELECT MAX(id) FROM ${table}) + 1)`;
+  const qry = `SELECT setval('${table}_id_seq', (SELECT MAX(id) FROM ${table}) + 2)`;
   await pool.query(qry);
 };
 
