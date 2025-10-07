@@ -1,6 +1,5 @@
 const { Pool } = require("pg");
-
-const env = process.env;
+const { env } = require("process");
 
 const pool = new Pool({
   host: env.HOST,
