@@ -1,19 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%= book.booktitle %></title>
-  </head>
-  <body>
-    <h1><%= book.booktitle %></h1>
-    <p><%= book.bookdescription %></p>
-    <p><%= book.bookrating %></p>
-    <p><%= book.bookpages %></p>
-    <img src="<%= book.bookimage %>" alt="" />
-    <p><%= book.author %></p>
-    <img src="<%= book.authorimage %>" alt="" />
-    <p><%= book.genretag %></p>
-    <p><%= book.rdate %></p>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/details.css">
+  <title>
+    <%= book.booktitle %>
+  </title>
+</head>
+
+<body>
+  <main ">
+    <h1>
+      <%= book.booktitle %>
+    </h1>
+    <img class=" book-image" src=" <%=book.bookimage %>" alt="" />
+  <div class="description-container">
+
+    <div class="author-container">
+      <span>
+        <%= book.author %>
+      </span>
+      <img src="<%= book.authorimage %>" alt="" />
+    </div>
+    <p class="description">
+      <%= book.bookdescription %>
+    </p>
+
+    <div class="data">
+      <p>
+        Rating:
+        <%= book.bookrating.toFixed(2) %>
+      </p>
+      <p>
+        Pages:
+        <%= book.bookpages %>
+      </p>
+      <p>
+        Genre:
+        <%= book.genretag %>
+      </p>
+      <p>
+        Release Date:
+        <%= book.rdate %>
+      </p>
+    </div>
+    </main>
+  </div>
+
+
+
+</body>
+
 </html>

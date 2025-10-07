@@ -10,7 +10,9 @@
 
 <body>
 
-  <a href="/new" class="btn add-book">Add a book</a>
+  <header>
+    <a href="/new" class="btn add-book" target="_blank">Add a book</a>
+  </header>
   <main>
     <div class="form-container">
       <form action="/page/<%= settings.page %>" method="GET">
@@ -78,7 +80,7 @@
               </div>
             </a>
             <div class="btns-container">
-              <a class="btn" href="/edit/<%= book.slug%>">Edit</a>
+              <a class="btn" href="/edit/<%= book.slug%>" target="_blank">Edit</a>
               <form action="/delete" method="POST">
                 <input type="hidden" name="id" value="<%= book.id %>">
                 <button class="btn" type="submit">Delete</button>

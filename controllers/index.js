@@ -47,6 +47,10 @@ async function getBookDetails(req, res) {
   let book = await GetDetails(slug);
   book = book[0];
 
+  const date = new Date(book.rdate);
+  const stringDate = date.toISOString().split("T")[0];
+  book.rdate = stringDate;
+
   res.render("bookDetails", { book });
 }
 

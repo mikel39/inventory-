@@ -4,6 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/form.css">
   <title>Add a book</title>
 </head>
 
@@ -28,7 +29,7 @@
     <div>
       <label for="genre">Genre</label>
       <select name="genre" id="genre" required
-        onchange="this.nextElementSibling.disabled = this.value === 'other' ? false: true">
+        onchange="this.nextElementSibling.className = this.value === 'other' ?  '': 'hidden'">
         <% genres.map(gn=> { %>
           <option value="<%= gn.tag_slug %>">
             <%=gn.tag %>
@@ -36,7 +37,7 @@
           <% }) %>
             <option value="other">Other</option>
       </select>
-      <input type="text" name="genrec" required disabled>
+      <input type="text" name="genrec" class="hidden">
     </div>
     <div>
       <label for="author">Author</label>

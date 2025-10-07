@@ -1,0 +1,72 @@
+@font-face {
+  font-family: "zalando";
+  src: url("./ZalandoSans-VariableFont_wdth\,wght.ttf");
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: zalando;
+  line-height: 1.5;
+  box-sizing: border-box;
+}
+
+:root {
+  --color0: #fbfafa;
+  --color1: #819795;
+  --color2: #d18463;
+  --color3: #816a74;
+  --color4: #252536;
+}
+
+body {
+  background-color: var(--color4);
+  color: var(--color0);
+  padding: 20px;
+}
+
+form {
+  width: 600px;
+  max-width: 100%;
+  background-color: var(--color2);
+  margin: 0 auto;
+  padding: 20px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+label {
+  display: block;
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin-bottom: 2px;
+}
+
+input,
+textarea,
+select {
+  background-color: var(--color0);
+  width: 100%;
+  border: none;
+  padding: 4px 10px;
+  font-size: 0.9rem;
+}
+
+textarea {
+  height: 300px;
+  overflow: visible;
+}
+
+button {
+  padding: 4px;
+  font-size: inherit;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.hidden {
+  display: none;
+}
