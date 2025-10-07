@@ -4,6 +4,7 @@ const index = require("./routes/index");
 const addnew = require("./routes/new");
 const update = require("./routes/update");
 const deleteModule = require("./routes/delete");
+const { env } = process;
 
 const app = express();
 
@@ -20,4 +21,4 @@ app.use("/new", addnew);
 app.use("/edit", update);
 app.use("/delete", deleteModule);
 
-app.listen(8000, (err) => err && console.log(err));
+app.listen(env.PORT, (err) => err && console.log(err));

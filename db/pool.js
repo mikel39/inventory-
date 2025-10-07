@@ -4,7 +4,7 @@ const { env } = process;
 const pool = new Pool({
   host: env.HOST,
   user: env.USER,
-  port: env.PORT,
+  port: env.DBPORT,
   password: env.PASSWORD,
   database: env.DB,
 });

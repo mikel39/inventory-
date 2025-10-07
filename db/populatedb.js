@@ -6,7 +6,7 @@ const { env } = process;
 const filePath = path.join(__dirname, "./data.json");
 const data = JSON.parse(fs.readFileSync(filePath, "utf-8"));
 const pool = new Pool({
-  connectionString: `postgresql://${env.USER}:${env.PASSWORD}@${env.HOST}:${env.PORT}/${env.DB}`,
+  connectionString: `postgresql://${env.USER}:${env.PASSWORD}@${env.HOST}:${env.DBPORT}/${env.DB}`,
 });
 
 function getTables() {
