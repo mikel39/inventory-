@@ -69,6 +69,11 @@ const setSequence = async (table) => {
   await pool.query(qry);
 };
 
+const reset = async () => {
+  const qry = "DROP TABLE IF EXISTS genres, books, authors";
+  await pool.query(qry);
+};
+
 async function proccessBooks(books) {
   const booksTable = `
   CREATE TABLE IF NOT EXISTS books (
@@ -146,6 +151,8 @@ async function proccessGenres(genres) {
 }
 
 async function main() {
+  await reset();
+
   const { authors, books, genres } = getTables();
 
   console.log("doing books");
